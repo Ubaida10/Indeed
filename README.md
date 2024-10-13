@@ -31,7 +31,7 @@ To set up the project locally, follow these steps:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/indeed-clone.git
+    git clone https://github.com/Ubaida10/Indeed.git
     ```
 
 2. Navigate into the project directory:
