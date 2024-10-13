@@ -44,3 +44,9 @@ To set up the project locally, follow these steps:
 ## Screenshots
 ![Home](https://github.com/user-attachments/assets/0dbabbcf-ecfc-452e-bf0f-c28a944a82ef)
 
+
+![Login](https://github.com/user-attachments/assets/e0c6a784-6871-466e-93cd-fa5961a2014a)
+
+
+
+![Profile](https://github.com/user-attachments/assets/555a7934-6b0c-46d7-9ece-52e3009b1089)
