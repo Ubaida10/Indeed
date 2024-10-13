@@ -5,7 +5,7 @@ A job portal android app that mimics the core functionalities of Indeed. Users c
 ## Table of Contents
 - [Project Overview](#project-overview)
 - [Features](#features)
-- [Tech Stack](Android App using Kotlin Jetpack Compose)
+- [Tech Stack](#tech-stack)
 - [Screenshots](#screenshots)
 
   
