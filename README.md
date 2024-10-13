@@ -37,13 +37,8 @@ To set up the project locally, follow these steps:
 2. Navigate into the project directory:
 
     ```bash
-    cd indeed-clone
+    cd indeed
     ```
 
-3. Install the required dependencies:
-
-    ```bash
-    dotnet restore  # if using ASP.NET
-    ```
 
 ## Screenshots
