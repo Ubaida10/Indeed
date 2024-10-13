@@ -13,7 +13,7 @@ A job portal android app that mimics the core functionalities of Indeed. Users c
 
 This project is a clone of the Indeed job search platform, created as part of a learning exercise. It allows job seekers to search and apply for jobs, and employers to post and manage job listings. It also includes features like user authentication, job filters, and profile management.
 
-## Features
+## Features(Working)
 
 - **User Registration and Login:** Users can create accounts, log in, and maintain their profiles.
 - **Job Search & Filters:** Users can search for jobs based on job title, company, location, and more.
