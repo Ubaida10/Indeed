@@ -1,6 +1,7 @@
 package com.example.indeedproject
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -43,6 +44,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -61,114 +63,143 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ){
-                    //JobFeedScreen()
+                    DisplayTitlePage()
                     //LoginScreen()
-                    ViewProfile()
+                    //ViewProfile()
                 }
             }
         }
     }
 }
 
+@Composable
+fun DisplayTitlePage()
+{
+    Column {
+        MainScreenTitleBar()
+        Spacer(modifier = Modifier.padding(5.dp))
+        JobFeedScreen()
+    }
+}
 
+@SuppressLint("SuspiciousIndentation", "UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreenTitleBar(){
+    val image = painterResource(R.drawable.indeed)
+    val context = LocalContext.current
+    Scaffold (
+        topBar = {
+            TopAppBar(
+                title = {
+                    Image(painter = image,
+                        contentDescription = "logo",
+                        modifier = Modifier.size(85.dp)
+                    )
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            val intent = Intent(context, Messages::class.java)
+                            context.startActivity(intent) // Start the activity using the context
+                        }
+                    ) {
+                        Icon(Icons.Default.Email, contentDescription = "Message")
+                    }
+                    IconButton(
+                        onClick = {
+                            val intent = Intent(context, Notifications::class.java)
+                            context.startActivity(intent) // Start the activity using the context
+                        }
+                    ) {
+                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                    }
+                    IconButton(
+                        onClick = {
+
+                        }
+                    ) {
+                        Icon(Icons.Default.List, contentDescription = "Menu")
+                    }
+                }
+            )
+        }
+    ){}
+}
 
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun JobFeedScreen() {
-    val image = painterResource(R.drawable.indeed)
-        Scaffold (
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Image(painter = image,
-                            contentDescription = "logo",
-                            modifier = Modifier.size(85.dp)
-                        )
-                    },
-                    actions = {
-                        IconButton(onClick = {/*Message Button*/}) {
-                            Icon(Icons.Default.Email, contentDescription = "Message")
-                        }
-                        IconButton(onClick = { /* Notification button */ }) {
-                            Icon(Icons.Default.Notifications, contentDescription = "Notifications")
-                        }
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Default.List, contentDescription = "Menu")
-                        }
-                    }
-                )
-            }
-        ) {innerPadding ->
-            Column (
+    Column (
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        SearchSection()
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "We're working on your personalized job feed",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                    SearchSection()
-                    Spacer(modifier = Modifier.height(32.dp))
+                .fillMaxWidth()
+                .padding(top = 20.dp)
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        Text(
+            text = "In the meantime, run a search to find your next job.",
+            fontSize = 16.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp)
+        )
 
-                    Text(
-                        text = "We're working on your personalized job feed",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                    Text(
-                        text = "In the meantime, run a search to find your next job.",
-                        fontSize = 16.sp,
-                        color = Color.Gray,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp)
-                    )
+        Spacer(modifier = Modifier.height(16.dp))
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Button(
-                        onClick = { /* Perform job search */ },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Blue,
-                            contentColor = Color.White
-                        )
+        Button(
+            onClick = { /* Perform job search */ },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.Blue,
+                contentColor = Color.White
+            )
 
 
-                    ) {
-                        Text(
-                            text = "Find Jobs"
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(90.dp))
-
-                    ProfileDetail()
-                    HorizontalLine()
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    JobSeekers()
-                    HorizontalLine()
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    Employers()
-                    HorizontalLine()
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    About()
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Footer()
-            }
+        ) {
+            Text(
+                text = "Find Jobs"
+            )
         }
+        Spacer(modifier = Modifier.height(90.dp))
+
+        ProfileDetail()
+        HorizontalLine()
+        Spacer(modifier = Modifier.height(10.dp))
+
+        JobSeekers()
+        HorizontalLine()
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Employers()
+        HorizontalLine()
+        Spacer(modifier = Modifier.height(10.dp))
+
+        About()
+        Spacer(modifier = Modifier.padding(10.dp))
+        Footer()
+    }
 }
 
 
+
+
 @Composable
-private fun JobSeekers() {
+fun JobSeekers() {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically, // Ensure vertical centering
@@ -194,6 +225,7 @@ private fun JobSeekers() {
 
 @Composable
 private fun ProfileDetail() {
+    val context = LocalContext.current
     Row (
         horizontalArrangement = Arrangement.SpaceBetween, // Change to SpaceBetween for better alignment
         verticalAlignment = Alignment.CenterVertically, // Ensure vertical centering
@@ -205,13 +237,19 @@ private fun ProfileDetail() {
             fontSize = 16.sp,
             modifier = Modifier.weight(1f)
         )
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowRight,
-            contentDescription = "Expand",
-            modifier = Modifier
-                .size(35.dp)
-                .padding(end = 16.dp),
-        )
+        IconButton(onClick = {
+            // Create the intent to navigate to another activity
+            val intent = Intent(context, SettingsActivity::class.java) // Replace with your target activity
+            context.startActivity(intent) // Start the activity using the context
+        }) {
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = "Expand",
+                modifier = Modifier
+                    .size(35.dp)
+                    .padding(end = 16.dp),
+            )
+        }
     }
 }
 
@@ -260,7 +298,7 @@ private fun SearchSection() {
 
 
 @Composable
-private fun Employers() {
+fun Employers() {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, // Change to SpaceBetween for better alignment
         verticalAlignment = Alignment.CenterVertically, // Ensure vertical centering
@@ -285,7 +323,7 @@ private fun Employers() {
 
 
 @Composable
-private fun About() {
+fun About() {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween, // Change to SpaceBetween for better alignment
         verticalAlignment = Alignment.CenterVertically, // Ensure vertical centering

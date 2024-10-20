@@ -89,7 +89,7 @@ fun ViewProfile() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TitleBar() {
+fun TitleBar() {
     val logo = painterResource(R.drawable.indeed)
     Scaffold(
         topBar = {
