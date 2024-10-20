@@ -18,6 +18,10 @@ This project is a clone of the Indeed job search platform, created as part of a 
 - **User Registration and Login:** Users can create accounts, log in, and maintain their profiles.
 - **Job Search & Filters:** Users can search for jobs based on job title, company, location, and more.
 - **Job Application:** Users can apply for jobs directly through the platform.
+- **Messages:** Users can see all the messages recieved.
+- **Notifications:** Users can see their notifications.
+- **Settings:** Users can review their settings.
+- **Navigation Drawer:** Users can use navigation drawer for direct navigation.
 
 ## Tech Stack
 
