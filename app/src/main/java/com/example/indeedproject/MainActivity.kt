@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
 fun DisplayTitlePage()
 {
     Column {
+        Spacer(modifier = Modifier.height(25.dp))
         MainScreenTitleBar()
         Spacer(modifier = Modifier.padding(5.dp))
         JobFeedScreen()
@@ -89,6 +90,8 @@ fun MainScreenTitleBar(){
     val image = painterResource(R.drawable.indeed)
     val context = LocalContext.current
     Scaffold (
+        modifier = Modifier
+            .height(50.dp),
         topBar = {
             TopAppBar(
                 title = {
