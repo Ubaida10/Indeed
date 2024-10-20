@@ -121,6 +121,7 @@ fun ViewNotificationsTitleBar() {
 fun ViewNotifications()
 {
     val image = painterResource(R.drawable.notification)
+
     Column(
         modifier = Modifier
             .fillMaxSize() // Fill the entire screen
@@ -128,6 +129,12 @@ fun ViewNotifications()
         verticalArrangement = Arrangement.Center, // Center vertically
         horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
     ) {
+        Text(
+            text = "Notifications",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
         Image(
             painter = image,
             contentDescription = "notification",

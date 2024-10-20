@@ -39,7 +39,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -114,7 +116,7 @@ fun ViewMessageTitleBar() {
                 actions = {
                     IconButton(
                         onClick = {
-                            val intent = Intent(context, Messages::class.java)
+                            val intent = Intent(context, Notifications::class.java)
                             context.startActivity(intent)
                         }
                     ) {
@@ -146,6 +148,8 @@ fun Options() {
     val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
 
     Column(
+        verticalArrangement = Arrangement.Center, // Center vertically
+        horizontalAlignment = Alignment.CenterHorizontally, // Center horizontally
         modifier = Modifier
             .fillMaxSize()
             //.padding(16.dp)
@@ -200,13 +204,21 @@ fun Inbox() {
         horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
     ) {
         Text(
-            text = stringResource(R.string.inbox_default),
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = "Messages",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp,
+            modifier = Modifier.padding(bottom = 16.dp) // Add padding below title
         )
+
         Image(
             painter = image,
             contentDescription = description,
             modifier = Modifier.size(100.dp)
+        )
+
+        Text(
+            text = stringResource(R.string.inbox_default),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
     }
 }
@@ -224,13 +236,21 @@ fun Archive() {
         horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
     ) {
         Text(
-            text = stringResource(R.string.archive_default),
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = "Messages",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp,
+            modifier = Modifier.padding(bottom = 16.dp) // Add padding below title
         )
+
         Image(
             painter = image,
             contentDescription = description,
             modifier = Modifier.size(100.dp)
+        )
+
+        Text(
+            text = stringResource(R.string.archive_default),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
     }
 }
@@ -247,13 +267,21 @@ fun Spam() {
         horizontalAlignment = Alignment.CenterHorizontally // Center horizontally
     ) {
         Text(
-            text = stringResource(R.string.spam_default),
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = "Messages",
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 32.sp,
+            modifier = Modifier.padding(bottom = 16.dp) // Add padding below title
         )
+
         Image(
             painter = image,
             contentDescription = description,
             modifier = Modifier.size(100.dp)
+        )
+
+        Text(
+            text = stringResource(R.string.spam_default),
+            modifier = Modifier.padding(bottom = 8.dp)
         )
     }
 }

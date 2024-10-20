@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
             IndeedProjectTheme {
                 Surface (
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.White
                 ){
                     DisplayTitlePage()
                     //LoginScreen()
@@ -91,7 +91,7 @@ fun MainScreenTitleBar(){
     val context = LocalContext.current
     Scaffold (
         modifier = Modifier
-            .height(50.dp),
+            .height(60.dp),
         topBar = {
             TopAppBar(
                 title = {
