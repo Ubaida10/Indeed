@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.ArrowBack
@@ -25,21 +27,28 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.preference.PreferenceFragmentCompat
+import kotlinx.coroutines.launch
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -66,7 +75,7 @@ fun SettingsFullScreen() {
         ViewTitleBar()
 
         // Display the settings text separately below
-        Settings()
+        //Settings()
 
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -78,58 +87,99 @@ fun SettingsFullScreen() {
 @Composable
 fun ViewTitleBar() {
     val context = LocalContext.current
-    Scaffold(
-        modifier = Modifier.height(50.dp),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+
+    // Create a drawer state
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
+
+    // Modal Navigation Drawer
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                // Your drawer items go here
+                ClickableText(
+                    AnnotatedString("Home"),
+                    onClick = {
+                        val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Profile"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Settings"),
+                    onClick = {
+                        val intent = Intent(context, SettingsActivity::class.java) // Replace with your target activity
+                        context.startActivity(intent) // Start the activity using the context
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Logout"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(), // Change height to fillMaxSize
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            IconButton(onClick = {}) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            }
+                            IconButton(onClick = {
+                                val intent = Intent(context, MainActivity::class.java)
+                                context.startActivity(intent)
+                            }) {
+                                Icon(Icons.Default.Home, contentDescription = "Home")
+                            }
                         }
+                    },
+                    actions = {
                         IconButton(onClick = {
-                            val intent = Intent(context, MainActivity::class.java)
+                            val intent = Intent(context, Messages::class.java)
                             context.startActivity(intent)
                         }) {
-                            Icon(Icons.Default.Home, contentDescription = "Home")
+                            Icon(Icons.Default.Email, contentDescription = "Message")
                         }
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                        val intent = Intent(context, Messages::class.java)
-                        context.startActivity(intent)
-                        }
-                    ) {
-                        Icon(Icons.Default.Email, contentDescription = "Message")
-                    }
-                    IconButton(
-                        onClick = {
+                        IconButton(onClick = {
                             val intent = Intent(context, Notifications::class.java)
                             context.startActivity(intent)
+                        }) {
+                            Icon(Icons.Default.Notifications, contentDescription = "Notifications")
                         }
-                    ) {
-                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                drawerState.open()
+                            }
+                        }) {
+                            Icon(Icons.Default.List, contentDescription = "Menu")
+                        }
                     }
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.List, contentDescription = "Menu")
-                    }
-                }
-            )
+                )
+            }
+        ) { innerPadding ->
+            // Apply padding to JobFeedScreen
+            Settings(modifier = Modifier.padding(innerPadding))
         }
-    ){
-        // Add padding to allow space for content below the TopAppBar
-        it.calculateBottomPadding()
     }
 }
 
 
 @Composable
-fun Settings() {
+fun Settings(modifier: Modifier) {
     // Now this will be displayed separately from the top bar
     Column(
         modifier = Modifier

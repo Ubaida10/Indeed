@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -30,28 +31,36 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.indeedproject.ui.theme.IndeedProjectTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,64 +85,104 @@ class MainActivity : ComponentActivity() {
 fun DisplayTitlePage()
 {
     Column {
-        Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(15.dp))
         MainScreenTitleBar()
         Spacer(modifier = Modifier.padding(5.dp))
-        JobFeedScreen()
+        //JobFeedScreen()
     }
 }
 
 @SuppressLint("SuspiciousIndentation", "UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreenTitleBar(){
-    val image = painterResource(R.drawable.indeed)
+fun MainScreenTitleBar() {
+    val image: Painter = painterResource(R.drawable.indeed)
     val context = LocalContext.current
-    Scaffold (
-        modifier = Modifier
-            .height(60.dp),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Image(painter = image,
-                        contentDescription = "logo",
-                        modifier = Modifier.size(85.dp)
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            val intent = Intent(context, Messages::class.java)
-                            context.startActivity(intent) // Start the activity using the context
-                        }
-                    ) {
-                        Icon(Icons.Default.Email, contentDescription = "Message")
-                    }
-                    IconButton(
-                        onClick = {
-                            val intent = Intent(context, Notifications::class.java)
-                            context.startActivity(intent) // Start the activity using the context
-                        }
-                    ) {
-                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
-                    }
-                    IconButton(
-                        onClick = {
 
-                        }
-                    ) {
-                        Icon(Icons.Default.List, contentDescription = "Menu")
-                    }
-                }
-            )
+    // Create a drawer state
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
+
+    // Modal Navigation Drawer
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                // Your drawer items go here
+                ClickableText(
+                    AnnotatedString("Home"),
+                    onClick = {
+                        val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Profile"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Settings"),
+                    onClick = {
+                        val intent = Intent(context, SettingsActivity::class.java) // Replace with your target activity
+                        context.startActivity(intent) // Start the activity using the context
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Logout"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
         }
-    ){}
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(), // Change height to fillMaxSize
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Image(
+                            painter = image,
+                            contentDescription = "logo",
+                            modifier = Modifier.size(85.dp)
+                        )
+                    },
+                    actions = {
+                        IconButton(onClick = {
+                            val intent = Intent(context, Messages::class.java)
+                            context.startActivity(intent)
+                        }) {
+                            Icon(Icons.Default.Email, contentDescription = "Message")
+                        }
+                        IconButton(onClick = {
+                            val intent = Intent(context, Notifications::class.java)
+                            context.startActivity(intent)
+                        }) {
+                            Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                        }
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                drawerState.open()
+                            }
+                        }) {
+                            Icon(Icons.Default.List, contentDescription = "Menu")
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
+            // Apply padding to JobFeedScreen
+            JobFeedScreen(modifier = Modifier.padding(innerPadding))
+        }
+    }
 }
 
 @SuppressLint("SuspiciousIndentation")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun JobFeedScreen() {
+fun JobFeedScreen(modifier: Modifier) {
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -242,7 +291,7 @@ private fun ProfileDetail() {
         )
         IconButton(onClick = {
             // Create the intent to navigate to another activity
-            val intent = Intent(context, SettingsActivity::class.java) // Replace with your target activity
+            val intent = Intent(context, SettingsActivity::class.java)
             context.startActivity(intent) // Start the activity using the context
         }) {
             Icon(
@@ -377,6 +426,6 @@ fun Footer() {
 @Composable
 fun JobFeedScreenPreview() {
     IndeedProjectTheme {
-        JobFeedScreen()
+        JobFeedScreen(modifier = Modifier)
     }
 }

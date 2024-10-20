@@ -26,7 +26,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -39,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -83,7 +86,7 @@ fun MessageFullScreen() {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        DisplayMessages()
+        //DisplayMessages()
     }
 }
 
@@ -93,50 +96,99 @@ fun MessageFullScreen() {
 @Composable
 fun ViewMessageTitleBar() {
     val context = LocalContext.current
-    Scaffold(
-        modifier = Modifier.height(50.dp),
-        topBar = {
-            TopAppBar(
-                title = {
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        IconButton(onClick = {}) {
-                            Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+
+    // Create a drawer state
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
+
+    // Modal Navigation Drawer
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                // Your drawer items go here
+                ClickableText(
+                    AnnotatedString("Home"),
+                    onClick = {
+                        val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Profile"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Settings"),
+                    onClick = {
+                        val intent = Intent(context, SettingsActivity::class.java) // Replace with your target activity
+                        context.startActivity(intent) // Start the activity using the context
+                    },
+                    modifier = Modifier.padding(16.dp)
+                )
+                ClickableText(
+                    AnnotatedString("Logout"),
+                    onClick = {},
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    ) {
+        Scaffold(
+            modifier = Modifier.fillMaxSize(), // Change height to fillMaxSize
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Row(
+                            horizontalArrangement = Arrangement.Start,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            IconButton(onClick = {}) {
+                                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                            }
+                            IconButton(onClick = {
+                                val intent = Intent(context, MainActivity::class.java)
+                                context.startActivity(intent)
+                            }) {
+                                Icon(Icons.Default.Home, contentDescription = "Home")
+                            }
                         }
+                    },
+                    actions = {
                         IconButton(onClick = {
-                            val intent = Intent(context, MainActivity::class.java)
+                            val intent = Intent(context, Messages::class.java)
                             context.startActivity(intent)
                         }) {
-                            Icon(Icons.Default.Home, contentDescription = "Home")
+                            Icon(Icons.Default.Email, contentDescription = "Message")
                         }
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
+                        IconButton(onClick = {
                             val intent = Intent(context, Notifications::class.java)
                             context.startActivity(intent)
+                        }) {
+                            Icon(Icons.Default.Notifications, contentDescription = "Notifications")
                         }
-                    ) {
-                        Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                drawerState.open()
+                            }
+                        }) {
+                            Icon(Icons.Default.List, contentDescription = "Menu")
+                        }
                     }
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Default.List, contentDescription = "Menu")
-                    }
-                }
-            )
+                )
+            }
+        ) { innerPadding ->
+            // Apply padding to JobFeedScreen
+            DisplayMessages(modifier = Modifier.padding(innerPadding))
         }
-    ){
-        // Add padding to allow space for content below the TopAppBar
-        it.calculateBottomPadding()
     }
 }
 
 
 @Composable
-fun DisplayMessages()
+fun DisplayMessages(modifier: Modifier)
 {
     Options()
 }
