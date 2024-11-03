@@ -1,6 +1,7 @@
 package com.example.indeedproject
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -132,7 +133,9 @@ fun ViewNotificationsTitleBar() {
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            IconButton(onClick = {}) {
+                            IconButton(onClick = {
+                                (context as? Activity)?.finish()
+                            }) {
                                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
                             IconButton(onClick = {

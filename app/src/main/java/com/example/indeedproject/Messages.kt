@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -145,7 +146,9 @@ fun ViewMessageTitleBar() {
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            IconButton(onClick = {}) {
+                            IconButton(onClick = {
+                                (context as? Activity)?.finish()
+                            }) {
                                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
                             IconButton(onClick = {

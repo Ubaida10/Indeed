@@ -184,7 +184,7 @@ fun MainScreenTitleBar() {
 @Composable
 fun JobFeedScreen(modifier: Modifier) {
     Column (
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -284,7 +284,7 @@ private fun ProfileDetail() {
         modifier = Modifier.fillMaxWidth()
     ){
         Text(
-            text="My Email Id",
+            text="abuubaida22dec@gmail.com",
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
             modifier = Modifier.weight(1f)

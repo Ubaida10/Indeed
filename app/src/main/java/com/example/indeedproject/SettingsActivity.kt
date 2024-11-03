@@ -3,10 +3,13 @@
 package com.example.indeedproject
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,6 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
@@ -136,7 +140,11 @@ fun ViewTitleBar() {
                             horizontalArrangement = Arrangement.Start,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            IconButton(onClick = {}) {
+                            IconButton(
+                                onClick = {
+                                    (context as? Activity)?.finish()
+                                }
+                            ) {
                                 Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                             }
                             IconButton(onClick = {
@@ -192,23 +200,31 @@ fun Settings(modifier: Modifier) {
             fontSize = 32.sp,
             modifier = Modifier.padding(bottom = 16.dp) // Add padding below title
         )
-
+        var context = LocalContext.current
         // Settings options in a vertical layout
         SettingOption(
             icon1 = Icons.Default.AccountCircle,
             label1 = "Account Settings",
             icon2 = Icons.Default.ArrowForward,
             label2 = "Your contact information",
-            onClick = { /* Handle Account Settings click */ }
+            onClick = {
+                val intent = Intent(context, AccountSettings::class.java)
+                context.startActivity(intent) // Start the activity using the context
+            }
         )
         HorizontalLine()
+        context = LocalContext.current
         SettingOption(
             icon1 = Icons.Default.Build,
             label1 = "Security Settings",
             icon2 = Icons.Default.ArrowForward,
             label2 = "Manage your account security",
-            onClick = { /* Handle Security Settings click */ }
+            onClick = {
+                val intent = Intent(context, SecuritySettings::class.java)
+                context.startActivity(intent) // Start the activity using the context
+            }
         )
+        context = LocalContext.current
         HorizontalLine()
         SettingOption(
             icon1 = Icons.Default.Email,
@@ -218,14 +234,19 @@ fun Settings(modifier: Modifier) {
             onClick = { /* Handle Email Settings click */ }
         )
         HorizontalLine()
+        context = LocalContext.current
         SettingOption(
             icon1 = Icons.Default.Info,
             label1 = "Device Management",
             icon2 = Icons.Default.ArrowForward,
             label2 = "Manage your active devices",
-            onClick = { /* Handle Device Management click */ }
+            onClick = {
+                val intent = Intent(context, DeviceManagment::class.java)
+                context.startActivity(intent) // Start the activity using the context
+            }
         )
         HorizontalLine()
+        context = LocalContext.current
         SettingOption(
             icon1 = Icons.Default.CheckCircle,
             label1 = "Privacy Settings",
@@ -246,49 +267,22 @@ fun SettingOption(
     label2: String,
     onClick: () -> Unit
 ) {
-    // Wrap the entire Row inside the IconButton
-    IconButton(
-        onClick = onClick,
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 8.dp) // Padding around the row
-                .fillMaxWidth(), // Ensures the row takes full width
-            verticalAlignment = Alignment.CenterVertically // Align items vertically
-        ) {
-            // First Icon
-            Icon(
-                icon1,
-                contentDescription = label1
-            )
-
-            // Column for Text
-            Column(
-                modifier = Modifier
-                    .padding(start = 10.dp)
-                    .weight(1f) // Allow the Column to take remaining space
-            ) {
-                // Text for label1
-                Text(
-                    text = label1,
-                    fontSize = 20.sp, // Adjust font size as needed
-                    fontWeight = FontWeight.ExtraBold
-                )
-                // Add padding to label2 for visibility
-                Text(
-                    text = label2,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(top = 2.dp) // Add some space above label2
-                )
-            }
-
-            // Second Icon
-            Icon(
-                icon2,
-                contentDescription = label2
-            )
+            .clickable { onClick() }
+            .padding(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon1,
+            contentDescription = null,
+            modifier = Modifier.padding(end = 16.dp)
+        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = label1, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = label2, color = Color.Gray, fontSize = 14.sp)
         }
+        Icon(imageVector = icon2, contentDescription = null)
     }
 }
