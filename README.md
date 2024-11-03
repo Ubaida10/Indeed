@@ -18,6 +18,7 @@ This project is a clone of the Indeed job search platform, created as part of a 
 - **User Registration and Login:** Users can create accounts, log in, and maintain their profiles.
 - **Job Search & Filters:** Users can search for jobs based on job title, company, location, and more.
 - **Job Application:** Users can apply for jobs directly through the platform.
+- **Account Settings:** Users can view their account related settings.
 
 ## Tech Stack
 
@@ -42,10 +43,13 @@ To set up the project locally, follow these steps:
 
 
 ## Screenshots
-![settings](https://github.com/user-attachments/assets/068a9e5d-42f6-42ca-993a-146116933ab2)
+![1st](https://github.com/user-attachments/assets/6d0da0a9-98dd-4581-a165-805fd907a37c)
 
 
-![messages](https://github.com/user-attachments/assets/c73ef065-b5ac-46b6-b3de-84038a1ced8b)
+![2nd](https://github.com/user-attachments/assets/2b8d7fe1-1766-441b-9a0f-d4e351e2c5d3)
 
-![Notifications](https://github.com/user-attachments/assets/6a69e548-7427-4df6-a632-4518f7773c38)
+
+![3rd](https://github.com/user-attachments/assets/c8a7b3d7-9bcf-4e23-b449-9a2c364015b7)
+
+
 
